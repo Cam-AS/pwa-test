@@ -1,13 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
   title = 'pwa-test';
@@ -27,12 +24,13 @@ export class AppComponent implements OnInit {
   private clearCachesAndReload() {
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.getRegistrations().then((registrations) => {
-        for (const registration of registrations) {
+        registrations.forEach((registration) => {
           registration.unregister();
-        }
+        });
       });
     }
 
+    // Delete all caches
     caches
       .keys()
       .then((cacheNames) => {
@@ -41,6 +39,7 @@ export class AppComponent implements OnInit {
         );
       })
       .then(() => {
+        // After clearing caches, reload the page to get the latest assets
         window.location.reload();
       });
   }
