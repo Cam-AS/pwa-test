@@ -18,9 +18,30 @@ export class AppComponent implements OnInit {
     if (this.swUpdate.isEnabled) {
       this.swUpdate.versionUpdates.subscribe((event) => {
         if (event.type === 'VERSION_READY') {
-          window.location.reload();
+          this.clearCachesAndReload();
         }
       });
     }
+  }
+
+  private clearCachesAndReload() {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then((registrations) => {
+        for (const registration of registrations) {
+          registration.unregister();
+        }
+      });
+    }
+
+    caches
+      .keys()
+      .then((cacheNames) => {
+        return Promise.all(
+          cacheNames.map((cacheName) => caches.delete(cacheName))
+        );
+      })
+      .then(() => {
+        window.location.reload();
+      });
   }
 }
