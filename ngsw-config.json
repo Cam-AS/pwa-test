@@ -28,17 +28,6 @@
       }
     }
   ],
-  "dataGroups": [
-    {
-      "name": "api-data",
-      "urls": ["http://localhost:3000/api/**"],
-      "cacheConfig": {
-        "maxSize": 100,
-        "maxAge": "1d",
-        "strategy": "performance"
-      }
-    }
-  ],
   "navigationRequestStrategy": "freshness",
   "navigationUrls": ["/**"]
 }
