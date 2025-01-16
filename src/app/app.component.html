@@ -1,1 +1,54 @@
-<div>Hello version: 16</div>
+<div>Hello version: 17</div>
+
+<label
+  class="z-1 position-absolute top-0 start-0 small px-1 bg-white"
+  *ngIf="label?.length"
+>
+  {{ label }}
+</label>
+
+<div *ngIf="error" class="error">
+  {{ error }}
+</div>
+
+<input
+  style="display: none"
+  type="file"
+  (change)="onFileSelected($event)"
+  accept=".jpg, .jpeg, .png"
+  #fileInput
+/>
+
+<div class="d-flex image-container">
+  <div
+    class="image"
+    [style.height.px]="size"
+    [style.width.%]="100"
+    *ngIf="image.displayImage"
+  >
+    <img
+      class="img-upload"
+      data-testid="uploaded-image"
+      [src]="image.displayImage"
+    />
+
+    <div class="remove-btn" (click)="clear()">&times;</div>
+    <a class="download-btn" (click)="download()">
+      <i class="fa fa-download"></i>
+    </a>
+  </div>
+
+  <div
+    *ngIf="!image.displayImage"
+    class="image add-image d-flex flex-column align-items-center justify-content-center text-primary"
+    title="Add Image"
+    [style.width.%]="100"
+    [style.height.px]="size"
+    [class.is-invalid]="error"
+    (click)="fileInput.click()"
+  >
+    <i class="fa fa-image"></i>
+    {{ 'SELECT_IMAGE_HERE' }}
+    <span class="fw-bold">{{ '_CHOOSE_FILE' }}</span>
+  </div>
+</div>
